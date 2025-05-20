@@ -8,12 +8,12 @@ plan(multisession)
 # read in data files - assumes you are already in the directory for this project and have files in a folder called Data
 # uncomment the version below to use the paths you had in the other file
 rivers <- list(
-  delger = as.matrix(read_csv("data/DelgerLengthAssessmentWorkshop_2015-19.csv")),
-  onon = as.matrix(read_csv("data/OnonLengthAssessmentWorkshop_2012-19.csv")),
-  eguur = as.matrix(read_csv("data/EgUurLengthAssessmentWorkshop_2004-08.csv")),
-  tugur = as.matrix(read_csv("data/TugurLengthAssessmentWorkshop_2008_2017.csv")),
-  karibetsu = as.matrix(read_csv("data/Karibetsu.csv")),
-  koppi = as.matrix(read_csv("data/koppi.csv"))
+  delger = as.matrix(read_csv("data/DelgerLengthAssessmentWorkshop_final.csv")),
+  onon = as.matrix(read_csv("data/OnonLengthAssessmentWorkshop_final.csv")),
+  eguur = as.matrix(read_csv("data/EgUurLengthAssessmentWorkshop_final.csv")),
+  tugur = as.matrix(read_csv("data/TugurLengthAssessmentWorkshop_final.csv")),
+  karibetsu = as.matrix(read_csv("data/KaribetsuLengthAssessmentWorkshop_final.csv")),
+  koppi = as.matrix(read_csv("data/KoppiLengthAssessmentWorkshop_final.csv"))
 )
 
 # params M, K Linf. M from FishLife, K and Linf from Jensen et al. 2009, and Bayesian VB model fitting

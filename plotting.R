@@ -1,5 +1,4 @@
 library(tidyverse)
-library(ggh4x)
 library(colorspace)
 
 mc_output <- read_csv("data/mc_output.csv")

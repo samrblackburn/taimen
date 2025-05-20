@@ -2,8 +2,8 @@ library(tidyverse)
 library(sf)
 library(maptiles)
 library(terra)
+library(colorspace)
 
-# 6 hours 5/12
 
 #read in location data
 locations <- read_csv("data/locations.csv") %>% 
