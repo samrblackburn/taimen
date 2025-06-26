@@ -51,4 +51,10 @@ rsconnect/
 *.DS_Store
 
 #plots
-VB fit plots/
+figures/
+*.pdf
+*.png
+*.html
+
+#targets
+_targets
