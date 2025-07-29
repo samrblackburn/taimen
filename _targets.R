@@ -1,4 +1,5 @@
 library(targets)
+library(future)
 
 ## if needed, install required packages
 #install.packages(c("tidyverse", "sf", "maptiles", "terra", "colorspace", "FSA", "brms", "tidybayes", "gridExtra", "furrr", "LBSPR", "devtools"))
@@ -7,6 +8,8 @@ library(targets)
 tar_option_set(packages = c("tidyverse", "sf", "maptiles", "terra", "colorspace", "FishLife", "FSA", "brms", "tidybayes", "gridExtra", "furrr", "LBSPR"),
                seed = 980) 
 
+# Set up parallel processing for montecarlo simulation
+plan(multisession)
 
 # helper functions to convert from normal distribution to lognormal
 # Log SD = √[log(1 + (s²/m²))]

@@ -28,7 +28,6 @@ montecarlo_targets <- list(
     
     # iterate over M, K, LInf values and fit model, then bind together
     # setting seed for furrr because LBSPR generates random numbers during model fit
-    plan(multisession)
     future_pmap(pars, run_lbspr_mc, data, .options = furrr_options(seed = TRUE)) %>%
       list_rbind()
     
