@@ -1,7 +1,7 @@
 # Taimen Analysis and Figure R Pipeline
 
 This repository holds code to model populations of Hucho taimen and Parahucho perryi in Mongolia and Japan using LBSPR models. In particular, it features a Montecarlo simulation of LBSPR model fits based on known distributions of M, K, and LInf. K and LInf were modeled using Bayesian methods for some populations based on a Von Bertalanffy growth curve.
-This analysis and figures were used in <publication>.
+This analysis and its accompanying figures were used in <publication>.
 It is setup as an automated pipeline using the [`targets`](https://books.ropensci.org/targets/) R package in order to orchestrate a modular workflow where dependency tracking determines which components need to be built. See the "Running Pipeline" section below for steps.
 
 ## Structure
@@ -19,11 +19,11 @@ It is setup as an automated pipeline using the [`targets`](https://books.ropensc
 
 ## Running Pipeline
 
-Just run the following snippet:
+After downloading and opening the repository, run the following snippet:
 
 ``` r
 # install required packages
-install.packages(c("tidyverse", "sf", "maptiles", "terra", "colorspace", "FSA", "brms", "tidybayes", "gridExtra", "furrr", "LBSPR", "devtools"))
+install.packages(c("targets", tidyverse", "sf", "maptiles", "terra", "colorspace", "FSA", "brms", "tidybayes", "gridExtra", "furrr", "LBSPR", "devtools"))
 devtools::install_github("james-thorson/FishLife", dep=TRUE)
 
 # build datasets
