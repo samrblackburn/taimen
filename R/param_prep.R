@@ -91,7 +91,7 @@ param_prep_targets <- list(
   # can take the mean of the draws/posteriors of each param so that we don't have to build a new data frame with values from scratch
   # these have been double checked with original values in Fishlife and Jensen et al. 2009
   tar_target(lbspr_params, params_mc %>% 
-               summarise(across(c(linf, k, m), ~signif(mean(.), 3)), .by = pop) %>% 
+               summarise(across(c(linf, k, m), list(mean = ~signif(mean(.), 3), sd = ~signif(sd(.), 3))), .by = pop) %>% 
                rename(river = pop) %>% 
                mutate(river = str_to_title(river),
                       river = if_else(river == "Eguur", "Eg-Uur", river),

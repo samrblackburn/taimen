@@ -25,9 +25,9 @@ lbspr_plot_targets <- list(
       select(-c(river, where(~all(is.na(.)))))
     species <-  if_else(name %in% c("karibetsu", "koppi"), "Parahucho perryi", "Hucho taimen")
     pars <- filter(lbspr_params, river == name)
-    m <- pars$m[1]
-    k <- pars$k[1]
-    linf <- pars$linf[1]
+    m <- pars$m_mean[1]
+    k <- pars$k_mean[1]
+    linf <- pars$linf_mean[1]
     tpars <- create_tpars(species, m, k, linf)
     Lvec <- create_lvec(tpars, data)
     LBSPRfit(tpars, Lvec, verbose = FALSE)
