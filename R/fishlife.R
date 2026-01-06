@@ -1,46 +1,74 @@
-
-
 fishlife_targets <- list(
-  
   # species of interest
   tar_target(species_list, c("Hucho taimen", "Parahucho perryi")),
-  
+
   # get mean values of fishlife parameters for species of interest, drop a few parameters we don't need
-  tar_target(fishlife_means, FishBase_and_Morphometrics$beta_gv %>% 
-               as_tibble(rownames = "species", .name_repair = "universal") %>% 
-               filter(species %in% species_list) %>% 
-               rename_with(~ str_replace(., "\\.+$", "")) %>% # drop trailing periods
-               rename_with(~ str_c(., "_mean"), .cols = where(is.numeric)) %>%
-               select(-c(contains("base"), contains("spawning"), contains("habitat"), contains("feeding"), contains("shape")))),
-  
-  # function to get variance estimates from fishlife for specific species
-  tar_target(get_var, function(species_name){
-    diag(FishBase_and_Morphometrics$Cov_gvv[species_name,,]) %>% 
-      as_tibble_row(.name_repair = "universal") %>% 
+  tar_target(
+    fishlife_means,
+    FishBase_and_Morphometrics$beta_gv %>%
+      as_tibble(rownames = "species", .name_repair = "universal") %>%
+      filter(species %in% species_list) %>%
       rename_with(~ str_replace(., "\\.+$", "")) %>% # drop trailing periods
-      rename_with(~ str_c(., "_var")) %>% 
+      rename_with(~ str_c(., "_mean"), .cols = where(is.numeric)) %>%
+      select(
+        -c(
+          contains("base"),
+          contains("spawning"),
+          contains("habitat"),
+          contains("feeding"),
+          contains("shape")
+        )
+      )
+  ),
+
+  # function to get variance estimates from fishlife for specific species
+  tar_target(get_var, function(species_name) {
+    diag(FishBase_and_Morphometrics$Cov_gvv[species_name, , ]) %>%
+      as_tibble_row(.name_repair = "universal") %>%
+      rename_with(~ str_replace(., "\\.+$", "")) %>% # drop trailing periods
+      rename_with(~ str_c(., "_var")) %>%
       mutate(species = species_name)
   }),
-  
+
   # get variance values of fishlife parameters for species of interest, drop a few parameters we don't need
-  tar_target(fishlife_vars, map(species_list, get_var) %>% 
-               list_rbind() %>%  
-               select(-c(contains("base"), contains("spawning"), contains("habitat"), contains("feeding"), contains("shape"))) %>% 
-               relocate(species)),
-  
+  tar_target(
+    fishlife_vars,
+    map(species_list, get_var) %>%
+      list_rbind() %>%
+      select(
+        -c(
+          contains("base"),
+          contains("spawning"),
+          contains("habitat"),
+          contains("feeding"),
+          contains("shape")
+        )
+      ) %>%
+      relocate(species)
+  ),
+
   # combine means and variance values, format, remove unneeded variables
-  tar_target(fishlife_values, full_join(fishlife_means, fishlife_vars, by = join_by(species))  %>% 
-               mutate(across(contains("var"),
-                             ~ sqrt(.x),
-                             .names = "{str_replace(.col, 'var', 'sd')}"
-               )) %>% 
-               select(-contains("var")) %>% 
-               mutate(across(where(is.numeric), signif)) %>% #trim off extra digits
-               select(species, log.linf_mean = log.length_infinity_mean, log.m_mean = log.natural_mortality_mean, log.k_mean = log.growth_coefficient_mean, 
-                      log.linf_sd = log.length_infinity_sd, log.m_sd = log.natural_mortality_sd, log.k_sd = log.growth_coefficient_sd)) 
-  
-  
-  
+  tar_target(
+    fishlife_values,
+    full_join(fishlife_means, fishlife_vars, by = join_by(species)) %>%
+      mutate(across(
+        contains("var"),
+        ~ sqrt(.x),
+        .names = "{str_replace(.col, 'var', 'sd')}"
+      )) %>%
+      select(-contains("var")) %>%
+      mutate(across(where(is.numeric), signif)) %>% #trim off extra digits
+      select(
+        species,
+        log.linf_mean = log.length_infinity_mean,
+        log.m_mean = log.natural_mortality_mean,
+        log.k_mean = log.growth_coefficient_mean,
+        log.linf_sd = log.length_infinity_sd,
+        log.m_sd = log.natural_mortality_sd,
+        log.k_sd = log.growth_coefficient_sd
+      )
+  )
+
   ## normally distributed mean and variance
   # μ = mean of log(X)
   # σ = var of log(X)
@@ -62,7 +90,4 @@ fishlife_targets <- list(
   #              )) %>%
   #              select(-contains("var")) %>%
   #              mutate(across(where(is.numeric), signif))) #trim off extra digits
-  
-  
 )
-

@@ -23,7 +23,7 @@ After downloading and opening the repository, run the following snippet:
 
 ``` r
 # install required packages
-install.packages(c("targets", tidyverse", "sf", "maptiles", "terra", "colorspace", "FSA", "brms", "tidybayes", "gridExtra", "furrr", "LBSPR", "devtools"))
+install.packages(c("targets", "tidyverse", "sf", "maptiles", "terra", "colorspace", "FSA", "brms", "tidybayes", "gridExtra", "furrr", "LBSPR", "devtools"))
 devtools::install_github("james-thorson/FishLife", dep=TRUE)
 
 # build datasets
